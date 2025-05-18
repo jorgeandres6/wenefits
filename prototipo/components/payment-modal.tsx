@@ -27,7 +27,9 @@ interface PaymentModalProps {
 
 //INICIO DE PAGOS-----------------------------------------
 
-const sendPayment = async () => {
+const cantidadToSend: number = 0.1;
+
+const sendPayment = async (amount:number) => {
   const res = await fetch('/api/initiate-payment', {
     method: 'POST',
   })
@@ -39,7 +41,7 @@ const sendPayment = async () => {
     tokens: [
       {
         symbol: Tokens.WLD,
-        token_amount: tokenToDecimals(0.1, Tokens.WLD).toString(),
+        token_amount: tokenToDecimals(amount, Tokens.WLD).toString(),
       },
     ],
     description: 'Test example payment for minikit',
@@ -121,7 +123,7 @@ export function PaymentModal({
 
     //setIsPaid(false)
                 //handleVerify();
-    handleVerify().finally(() => sendPayment());
+    handleVerify().finally(() => sendPayment(parseFloat(amount)));
     onClose();
   }
 
